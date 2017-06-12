@@ -1,7 +1,7 @@
 package com.jeweleryguard.controller;
 
-import javax.validation.Valid;
-
+import com.jeweleryguard.model.User;
+import com.jeweleryguard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jeweleryguard.model.User;
-import com.jeweleryguard.service.UserService;
+import javax.validation.Valid;
 
 @Controller
-public class LoginController {
+@RequestMapping( name = "/users")
+public class UserController {
 
 	@Autowired
 	private UserService userService;

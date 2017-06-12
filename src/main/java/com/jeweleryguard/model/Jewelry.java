@@ -1,19 +1,9 @@
 package com.jeweleryguard.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Jewelry {
@@ -23,25 +13,30 @@ public class Jewelry {
     @Column(name = "jewelry_id")
     private int id;
     @Column(name = "brand")
-    @NotEmpty(message = "*Please provide a brand")
     private String brand;
     @Column(name = "weight")
     private float weight;
     @Column(name = "metal")
-    @NotEmpty(message = "*Please provide metal")
-    private String metal;
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable(name = "jewelry_metal", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "metal_id"))
+    private List<Metal> metalList;
+
     @Column(name = "name")
-    @NotEmpty(message = "*Please provide name")
     private String name;
     @Column(name = "lost")
     @Value(value = "false")
     private int lost;
     @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    private Category category;
+    @Column(name = "category")
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable(name = "jewelry_category", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categoryList;
+
     @OneToMany(cascade = CascadeType.REFRESH)
-    private List<Attachment> attachmentList;
+    @JoinTable(name = "jewelry_file", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "file_id"))
+    private List<MyFile> fileList;
 
     public int getId() {
         return id;
@@ -67,12 +62,20 @@ public class Jewelry {
         this.weight = weight;
     }
 
-    public String getMetal() {
-        return metal;
+    public List<Metal> getMetalList() {
+        return metalList;
     }
 
-    public void setMetal(String metal) {
-        this.metal = metal;
+    public void setMetalList(List<Metal> metalList) {
+        this.metalList = metalList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getLost() {
@@ -91,12 +94,19 @@ public class Jewelry {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
     }
-    
+
+    public List<MyFile> getMyFileList() {
+        return fileList;
+    }
+
+    public void setMyFileList(List<MyFile> fileList) {
+        this.fileList = fileList;
+    }
 }

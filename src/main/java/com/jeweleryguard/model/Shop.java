@@ -1,16 +1,11 @@
 package com.jeweleryguard.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Shop {
@@ -19,11 +14,6 @@ public class Shop {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	 @Column(name = "shop_id")
 	private int id;
-	@Column(name = "password")
-	@Length(min = 6, message = "*Haslo musi zawierac minimum 6 znakow")
-	@NotEmpty(message = "*Haslo jest wymagane")
-	@Transient
-	private String password;
 	
 	@Column(name = "name")
 	@NotEmpty(message = "*Nazwa jest wymagane")
@@ -41,12 +31,12 @@ public class Shop {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.REFRESH)
-	@JoinTable(name = "shop_employee", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "shop_id"))
+//	@JoinTable(name = "shop_employee", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "shop_id"))
 	private List<User> employeeList;
 
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.REMOVE)
-	@JoinTable(name = "shop_owner", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "shop_id"))
+//	@JoinTable(name = "shop_owner", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "shop_id"))
 	private User owner;
 
 	public int getId() {
@@ -55,14 +45,6 @@ public class Shop {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getName() {

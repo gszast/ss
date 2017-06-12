@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>JGuard - Sklepy</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/jguard.css}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">JGuard</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/jewelrys" class="btn btn-default">Moja biżuteria</a></li>
+				<li><a href="/jewelrys/new" class="btn btn-default">Dodaj nową</a></li>
+				<li><a href="/shops" class="btn btn-default">List sklepów</a></li>
+				<li><a href="/about" class="btn btn-default">About</a></li>
+				<li><a href="/admin" class="btn btn-default">Admin panel</a></li>
+				<li><a href="/logout" class="btn btn-default">Wyloguj</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="content">
+		<h1>Sklepy współpracujące z nami:</h1>
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>L.P.</th>
+					<th>Nazwa</th>
+					<th>Adres</th>
+					<th>Opis</th>
+				</tr>
+				<tr th:each="s,iterationStatus  : ${shopList}">
+					<td th:text="${iterationStatus.count}">1</td>
+					<td th:text="${s.name}">NAME</td>
+					<td th:text="${s.address}">ADDRESS</td>
+					<td th:text="${s.description}">DESCRIPTION</td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

@@ -1,9 +1,7 @@
 package com.jeweleryguard.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.jeweleryguard.model.*;
+import com.jeweleryguard.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,16 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jeweleryguard.model.Category;
-import com.jeweleryguard.model.Jewelry;
-import com.jeweleryguard.model.Metal;
-import com.jeweleryguard.model.Shop;
-import com.jeweleryguard.model.User;
-import com.jeweleryguard.service.CategoryService;
-import com.jeweleryguard.service.JewelryService;
-import com.jeweleryguard.service.MetalService;
-import com.jeweleryguard.service.ShopService;
-import com.jeweleryguard.service.UserService;
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(value ="/admin")
@@ -77,49 +67,53 @@ public class AdminController {
 		}
 		return modelAndView;
 	}
-
-	@RequestMapping(value="/home", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 
-		modelAndView.addObject("userName", "Witaj " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ") + Liczba bizuterii: "+user.getJewelryList().size());
-		modelAndView.addObject("adminMessage","Zawartosc widoczna wylacznie dla zalogowanych uzytkownikow");
-		modelAndView.setViewName("admin/home");
+		modelAndView.setViewName("admin");
 		return modelAndView;
 	}
-	@RequestMapping(value="/entities", method = RequestMethod.GET)
-	public ModelAndView home(@RequestParam String type){
+
+	@RequestMapping(params = "{add}" ,method = RequestMethod.GET)
+	public ModelAndView homeEdit(@RequestParam String add){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		
 
-		switch ( type ) {
+		switch ( add ) {
 			case "user":{
 				List<User> userList = userService.findAll();
+				modelAndView.addObject("user", new User());
 				modelAndView.addObject("userList", userList);
 				break;
 			}
 			case "shop":{
 				List<Shop> shopList = shopService.findAll();
+				modelAndView.addObject("shop", new Shop());
 				modelAndView.addObject("shopList", shopList);
 				break;
 			}
 			case "category":{
 				List<Category> categoryList = categoryService.findAll();
+				modelAndView.addObject("category", new Category());
 				modelAndView.addObject("categoryList", categoryList);
 				break;
 			}
 			case "metal":{
 				
 				List<Metal> metalList = metalService.findAll();
+				modelAndView.addObject("metal", new Metal());
 				modelAndView.addObject("metalList", metalList);
 				break;
 			}
 			case "jewelry":{
 				List<Jewelry> jewelryList = jewelryService.findAll();
+
+				modelAndView.addObject("jewelry", new Jewelry());
 				modelAndView.addObject("jewelryList", jewelryList);
 				
 				break;
@@ -128,10 +122,9 @@ public class AdminController {
 
 		
 		
-		modelAndView.setViewName("admin/"+type.trim());
+		modelAndView.setViewName("admin/"+add.trim());
 		return modelAndView;
 	}
-		
 
 
 }

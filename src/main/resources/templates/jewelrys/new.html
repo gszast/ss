@@ -1,88 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+
 <head>
-	<title>Jewelery Guard - Rejestracja</title>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+	<title>JGuard - Nowa biżuteria</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/jguard.css}" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-
-				<form autocomplete="off" action="#" th:action="@{/jewelry/new}"
-					th:object="${jewelry}" method="post" class="form-horizontal"
-					role="form">
-					<h2>Dodawanie nowej biżuterii</h2>
-					<div class="form-group">
-						<div class="col-sm-9">
-						<label th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"
-								class="validation-message"></label>
-						<input type="text" th:field="*{brand}" placeholder="Firma"
-								class="form-control" />
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-9">
-							<label th:if="${#fields.hasErrors('metal')}" th:errors="*{metal}"
-								   class="validation-message"></label>
-							<input type="text" th:field="*{metal}" placeholder="Kruszec"
-								   class="form-control" />
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-9">
-						<label	th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-								class="validation-message"></label>
-							<input type="text" th:field="*{name}" placeholder="Nazwa"
-								   class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-6">Waga:
-							<input type="text" th:field="*{weight}" placeholder="Waga"
-								class="form-control" /> <label
-								th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"
-								class="validation-message"></label>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-6">Kategoria:
-						<ul class="list-group" th:each="c : ${categoryList}">
-							<li class="list-group-item" th:text="${c.name}">NAME</li>
-						</ul>
-							<input type="text" th:field="*{weight}" placeholder="Waga"
-								class="form-control" /> <label
-								th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"
-								class="validation-message"></label>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-9">
-							<button type="submit" class="btn btn-primary btn-block">Dodaj</button>
-						</div>
-					</div>
-
-					<span th:utext="${successMessage}"></span>
-
-					<a href="/admin/home" class="btn btn-md btn-info btn-block" role="button">Home</a>
-					<a href="/jewelry/list" class="btn btn-md btn-info btn-block" role="button">Pokaż moją biżuterię</a>
-					<form th:action="@{/logout}" method="get">
-						<button class="btn btn-md btn-danger btn-block" name="registration"
-								type="Submit">Wyloguj</button>
-					</form>
-
-
-				</form>
+<div class="container">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">JGuard</a>
 			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/jewelrys" class="btn btn-default">Moja biżuteria</a></li>
+				<li><a href="/jewelrys/new" class="btn btn-default">Dodaj nową</a></li>
+				<li><a href="/shops" class="btn btn-default">List sklepów</a></li>
+				<li><a href="/about"  class="btn btn-default">About</a></li>
+				<li><a href="/logout" class="btn btn-default">Wyloguj</a></li>
+				<li><a href="/admin" class="btn btn-default">Admin panel</a></li>
+			</ul>
 		</div>
-	</div>
+	</nav>
+	<div class="content">
 
+		<div class="col-md-6 col-md-offset-3">
+
+			<form autocomplete="off" action="#" th:action="@{/jewelrys}"
+				  th:object="${jewelry}" method="post" class="form-horizontal"
+				  role="form">
+				<h2>Dodawanie nowej biżuterii</h2>
+				<div class="form-group">
+					<div class="">
+						<label th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"
+							   class="validation-message"></label>
+						<input type="text" th:field="*{brand}" placeholder="Firma"
+							   class="form-control" required />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="">
+						<label	th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+								  class="validation-message"></label>
+						<input type="text" th:field="*{name}" placeholder="Nazwa"
+							   class="form-control" required/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="">Waga:
+						<input type="text" th:field="*{weight}" placeholder="Waga"
+							   class="form-control" /> <label
+								th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"
+								class="validation-message" required></label>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="">Kategoria:
+						<select th:field="*{categoryList}" class="selectpicker form-control" multiple="multiple">
+							<option th:each="dropDownItem : ${categoryList}"
+									th:value="${dropDownItem.id}"
+									th:text="${dropDownItem.name}"  required/>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="">Kruszec:
+						<select th:field="*{metalList}" class="selectpicker form-control" multiple="multiple">
+							<option th:each="dropDownItem : ${metalList}"
+									th:value="${dropDownItem.id}"
+									th:text="${dropDownItem.name}"  required/>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="">
+						<button type="submit" class="btn btn-primary btn-block">Dodaj</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</div>
 </body>
 </html>

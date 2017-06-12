@@ -1,9 +1,10 @@
 package com.jeweleryguard.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.jeweleryguard.model.Shop;
+import com.jeweleryguard.model.User;
+import com.jeweleryguard.service.JewelryService;
+import com.jeweleryguard.service.ShopService;
+import com.jeweleryguard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,12 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jeweleryguard.model.Jewelry;
-import com.jeweleryguard.model.Shop;
-import com.jeweleryguard.model.User;
-import com.jeweleryguard.service.JewelryService;
-import com.jeweleryguard.service.ShopService;
-import com.jeweleryguard.service.UserService;
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/shops")
@@ -33,7 +30,7 @@ public class ShopController {
 	
 
 	@RequestMapping(value="/new", method = RequestMethod.GET)
-	public ModelAndView newJewelry(){
+	public ModelAndView newShop(){
 		ModelAndView modelAndView = new ModelAndView();
 		Shop shop = new Shop();
 		modelAndView.addObject("shop", shop);
@@ -41,8 +38,8 @@ public class ShopController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ModelAndView newShop(@Valid Shop shop, BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView saveShop(@Valid Shop shop, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
@@ -52,9 +49,10 @@ public class ShopController {
 			modelAndView.setViewName("shops/new");
 		} else {
 			shopService.saveShop(shop);
+			List<Shop> shopList = shopService.findAll();
 			modelAndView.addObject("successMessage", "Dodano do nowy sklep.");
-			modelAndView.addObject("shop", shop);
-			modelAndView.setViewName("shops/index");
+			modelAndView.addObject("shopList", shopList);
+			modelAndView.setViewName("shops");
 
 		}
 		return modelAndView;
@@ -67,7 +65,7 @@ public class ShopController {
 		//TO DO: show shops only to related users
 		List<Shop> shopList = shopService.findAll();
 		modelAndView.addObject("shopList", shopList );
-		modelAndView.setViewName("shops/list");
+		modelAndView.setViewName("shops");
 		return modelAndView;
 	}
 
