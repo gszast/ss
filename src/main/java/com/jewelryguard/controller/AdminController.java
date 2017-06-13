@@ -84,7 +84,7 @@ public class AdminController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		
-asdasdasd
+
 		switch ( add ) {
 			case "user":{
 				List<User> userList = userService.findAll();
