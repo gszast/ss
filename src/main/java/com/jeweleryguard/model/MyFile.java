@@ -8,20 +8,34 @@ public class MyFile {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 @Column(name = "file_id")
 	    private int id;
-	    private String name;
-	    
-		public int getId() {
+	 private String path;
+	 @ManyToOne
+	 private Jewelry jewelry;
+
+	public MyFile(Jewelry jewelry) {
+		this.jewelry = jewelry;
+	}
+
+	public int getId() {
 			return id;
 		}
 		public void setId(int id) {
 			this.id = id;
 		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
 
+	public Jewelry getJewelry() {
+		return jewelry;
+	}
 
+	public void setJewelry(Jewelry jewelry) {
+		this.jewelry = jewelry;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
 }

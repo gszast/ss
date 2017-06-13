@@ -6,9 +6,11 @@ import java.io.File;
 import java.util.List;
 
 public interface MyFileService {
-    public MyFile findByName(String name);
-    public MyFile save(MyFile file);
+    MyFile findByName(String name);
+    MyFile save(MyFile file);
 	public List<MyFile> findAll();
-    public byte[] write(File file);
-    public byte[] read(File file);
+    byte[] writeBase64Image(String file, String fileName);
+    byte[] readJewelryImage(File file);
+
+    MyFile saveJeweleryImage(MyFile myFile);
 }

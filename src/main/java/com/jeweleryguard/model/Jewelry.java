@@ -35,8 +35,8 @@ public class Jewelry {
     private List<Category> categoryList;
 
     @OneToMany(cascade = CascadeType.REFRESH)
-    @JoinTable(name = "jewelry_file", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "file_id"))
-    private List<MyFile> fileList;
+    @JoinTable(name = "jewelry_image", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "file_id"))
+    private List<MyFile> imageList;
 
     public int getId() {
         return id;
@@ -102,11 +102,11 @@ public class Jewelry {
         this.categoryList = categoryList;
     }
 
-    public List<MyFile> getMyFileList() {
-        return fileList;
+    public List<MyFile> getImageList() {
+        return imageList;
     }
 
-    public void setMyFileList(List<MyFile> fileList) {
-        this.fileList = fileList;
+    public void setImageList(List<MyFile> imageList) {
+        this.imageList = imageList;
     }
 }

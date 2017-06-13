@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -80,5 +86,26 @@ public class JewelryController {
 		return modelAndView;
 	}
 
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView saveJewelleryFiles(@Valid MyFile myFile, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		myFileService.saveJeweleryImage(myFile);
+		List<MyFile> myFileList = myFileService.findAll();
+		modelAndView.addObject("myFileList",myFileList);
+		modelAndView.setViewName("admin/myFile");
+		modelAndView.addObject("successMessage", "Dodano do nowy kruszec.");
+		return modelAndView;
+	}
 
+	@RequestMapping(value="{jewelryId}/images", method = RequestMethod.GET)
+	public ModelAndView getJeweleryImageList(){
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+		jewelryService.findOne(je)
+
+		modelAndView.addObject("jewelryList", jewelryList );
+		modelAndView.setViewName("jewelrys");
+		return modelAndView;
+	}
 }

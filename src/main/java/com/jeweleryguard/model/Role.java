@@ -1,11 +1,7 @@
 package com.jeweleryguard.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Role {
@@ -15,8 +11,16 @@ public class Role {
 	private int id;
 	@Column(name="role")
 	private String role;
-
-	public int getId() {
+	@ManyToMany(mappedBy = "roles")
+	private Collection<User> users;
+	@ManyToMany
+	@JoinTable(
+			name = "roles_privileges",
+			joinColumns = @JoinColumn(
+					name = "role_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(
+					name = "privilege_id", referencedColumnName = "id"))
+	private Collection<Privilege> privileges;	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -29,5 +33,19 @@ public class Role {
 		this.role = role;
 	}
 
+	public Collection<User> getUsers() {
+		return users;
+	}
 
+	public void setUsers(Collection<User> users) {
+		this.users = users;
+	}
+
+	public Collection<Privilege> getPrivileges() {
+		return privileges;
+	}
+
+	public void setPrivileges(Collection<Privilege> privileges) {
+		this.privileges = privileges;
+	}
 }

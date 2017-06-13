@@ -1,0 +1,34 @@
+
+# ===============================
+# = DATA SOURCE
+# ===============================
+spring:
+  datasource:
+    username: jguard
+    password: jguard
+    url: jdb:mysql:http://localhost:3306/jguard
+    dbcp2:
+      test-while-idle: true
+      validation-query: SELECT 1
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+  queries:
+    users-query:  select email, password, active from user where email=?
+    roles-query:  select u.email, r.role from user u inner join user_role ur on(u.user_id=ur.user_id) inner join role r on(ur.role_id=r.role_id) where u.email=?
+# =============================
+# = imgDir + jImgPrefix + jewelryId + myFileId + jImgSufix
+# = Ex.: "/jguard/public/img/j_img_55/3.jpg"
+# =============================
+resources:
+  public:
+    img-dir: /jguard/public/img/
+  img:
+    j-img-prefix: j_img_
+    j-img-sufix: .jpg

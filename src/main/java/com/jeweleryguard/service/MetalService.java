@@ -5,7 +5,7 @@ import java.util.List;
 import com.jeweleryguard.model.Metal;
 
 public interface MetalService {
-    public Metal findByName(String name);
-    public Metal save(Metal mmetal);
+    Metal findByName(String name);
+    Metal save(Metal mmetal);
 	public List<Metal> findAll();
 }

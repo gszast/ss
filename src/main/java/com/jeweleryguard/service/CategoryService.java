@@ -5,7 +5,7 @@ import java.util.List;
 import com.jeweleryguard.model.Category;
 
 public interface CategoryService {
-    public Category findByName(String name);
-    public Category save(Category category);
+    Category findByName(String name);
+    Category save(Category category);
 	public List<Category> findAll();
 }
