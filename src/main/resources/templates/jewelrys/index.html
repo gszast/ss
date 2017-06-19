@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js.js}"></script>
 </head>
 
 <body>
@@ -23,13 +24,43 @@
 					<li><a href="/about"  class="btn btn-default">About</a></li>
 					<li><a href="/logout" class="btn btn-default">Wyloguj</a></li>
 					<li><a href="/admin" class="btn btn-default">Admin panel</a></li>
+					<li><a href="/jewelrys" class="btn btn-default">Moja biżuteria</a></li>
 				</ul>
-				<li><a href="/jewelrys" class="btn btn-default">Moja biżuteria</a></li>
 			</div>
 		</nav>
 		<div class="content">
-			
-		
+			<div>
+				<h2><div th:text="${jewelry.name}">NAME</div></h2>
+				Firma: <div th:text="${jewelry.brand}">BRAND</div>
+				Kruszce: <div>
+					<p th:each="m : ${jewelry.metalList}"
+					   th:text="${m.name}"></p>
+				</div>
+				Waga: <div th:text="${jewelry.weight}">WEIGHT</div>
+				Kategorie: <div>
+					<p th:each="c : ${jewelry.categoryList}"
+					   th:text="${c.name}"></p>
+				</div>
+			</div>
+			<a th:href="'/jewelrys/'+${jewelry.id}+'/images'"><h2> Zdjęcia: </h2></a>
+			<div class="img-container">
+
+			</div>
+			<div class="j-img-container" >
+
+				<div th:each="i : ${images}" >
+
+						<div class="j-img"  th:id="${i}" th:style="'background:url(/img/'+ ${jewelry.id} + '/' + ${i} + ');'">
+							<div class="j-img-nav">
+								<button  id="deleteButton" name="deleteButton" th:onclick="'deleteImg('+${jewelry.id} +','+${i}+')'" type="button"
+										 class="close" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

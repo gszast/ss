@@ -7,6 +7,6 @@ import com.jewelryguard.model.Shop;
 import com.jewelryguard.model.User;
 
 @Repository("ShopRepository")
-public interface ShopRepository extends PagingAndSortingRepository<Shop, Long> {
+public interface ShopRepository extends PagingAndSortingRepository<Shop, Integer> {
 	 Shop findByOwner(User user);
 }

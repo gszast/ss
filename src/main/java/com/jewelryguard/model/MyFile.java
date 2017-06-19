@@ -1,7 +1,9 @@
 package com.jewelryguard.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
-	
+
 @Entity
 public class MyFile {
 	 @Id
@@ -11,6 +13,9 @@ public class MyFile {
 	 private String path;
 	 @ManyToOne
 	 private Jewelry jewelry;
+
+	public MyFile() {
+	}
 
 	public MyFile(Jewelry jewelry) {
 		this.jewelry = jewelry;

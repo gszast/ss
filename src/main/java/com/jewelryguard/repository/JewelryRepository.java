@@ -5,7 +5,9 @@ import com.jewelryguard.model.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("JewelryRepository")
-public interface JewelryRepository extends PagingAndSortingRepository<Jewelry, Long> {
-	 Jewelry findByUser(User user);
+public interface JewelryRepository extends PagingAndSortingRepository<Jewelry, Integer> {
+	 List<Jewelry> findAllByUser(User user);
 }

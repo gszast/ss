@@ -6,9 +6,11 @@ import com.jewelryguard.model.Jewelry;
 import com.jewelryguard.model.User;
 
 public interface JewelryService {
-    Jewelry findJewelryByUser(User user);
+    List<Jewelry> findAllByUser(User user);
     void saveJewelry(Jewelry jewelry);
 	public List<Jewelry> findAll();
 
-    Jewelry findOne(long jewelryId);
+    Jewelry findOne(int jewelryId);
+
+    boolean delete(Jewelry jewelry);
 }

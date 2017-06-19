@@ -8,13 +8,17 @@ import com.jewelryguard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("MyFileService")
@@ -35,29 +39,27 @@ public class MyFileServiceImpl implements MyFileService{
 	private String jImgSufix;
 
 	@Override
-	public MyFile saveJewelryImage(String imageBase64, Jewelry jewelry) throws FileNotFoundException {
-		if ( imageBase64 == null  || imageBase64 == "") {
+	public MyFile saveJewelryImage(MultipartFile file, Jewelry jewelry) throws FileNotFoundException {
+		if ( file == null ) {
 			return null;
-		}
-		String imgPath = imgDir + jImgPrefix + jewelry.getId() + "/";
-
-		MyFile myFile = new MyFile(jewelry);
-		myFile = myFileRepository.save(myFile);
+        }
+        MyFile myFile = new MyFile(jewelry);
+        myFile = myFileRepository.save(myFile);
+        String filePath = imgDir + jImgPrefix + jewelry.getId() + "/";
+        String fileName = file.getName()+"_"+myFile.getId()+".png";
 
 		if ( myFile == null ){
 			throw new EntityNotFoundException("#Database my_file create exception");
 		}
 
-		imgPath += myFile.getId() + jImgSufix;
-
 		try {
-			writeToSystem(imageBase64, imgPath );
+			writeToSystem(file.getBytes(), filePath, fileName );
 		} catch (IOException e) {
 			myFileRepository.delete(myFile);
 			throw new FileNotFoundException("#File not found or #IOException ");
 		}
 
-		myFile.setPath(imgPath);
+		myFile.setPath(jewelry.getId()+"/"+myFile.getId());
 		myFile = myFileRepository.save(myFile);
 
 		if ( myFile == null ){
@@ -66,14 +68,48 @@ public class MyFileServiceImpl implements MyFileService{
 
 		return myFile;
 	}
-
-	public boolean writeToSystem(String base64String, String file) throws IOException {
-		byte[] bytes = Base64.getDecoder().decode(base64String);
-		FileOutputStream fos = new FileOutputStream(file);
-		fos.write(bytes);
-		fos.close();
-		return true;
+    @Override
+    public List<MyFile> findAllByJewelry(Jewelry jewelry) {
+        return myFileRepository.findAllByJewelry(jewelry);
 	}
+
+	@Override
+	public MyFile findOne(int imgId) {
+		return myFileRepository.findOne(imgId);
+	}
+
+	@Override
+	public void delete(MyFile myFile) {
+		myFileRepository.delete(myFile);
+	}
+
+	public boolean writeToSystem(byte[] bytes, String filePath, String fileName) throws IOException {
+		File folder = new File(filePath);
+		if ( !folder.exists() ) {
+            folder.mkdirs();
+        }
+		FileOutputStream fos = new FileOutputStream(filePath+fileName);
+
+        InputStream in = new ByteArrayInputStream(bytes);
+        BufferedImage image = ImageIO.read(in);
+        try (OutputStream os = fos) {
+            ImageIO.write(image, "png", os);
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
+        fos.close();
+        return true;
+	}
+	public static byte[] readFromSystem(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+
+        byte[] bytes = Files.readAllBytes(path);
+        if ( bytes == null ) {
+            throw new IOException();
+        }
+        return bytes;
+
+    }
 	@Override
 	public List<MyFile> findAll() {
 		return Lists.newArrayList( (List<MyFile>) myFileRepository.findAll());

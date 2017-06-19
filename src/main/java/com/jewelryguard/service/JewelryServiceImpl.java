@@ -19,16 +19,22 @@ public class JewelryServiceImpl implements JewelryService{
 	}
 
     @Override
-    public Jewelry findOne(long jewelryId) {
-        return null;
+    public Jewelry findOne(int jewelryId) {
+        return jewelryRepository.findOne(jewelryId);
+    }
+
+    @Override
+    public boolean delete(Jewelry jewelry) {
+        jewelryRepository.delete(jewelry);
+        return true;
     }
 
     @Autowired
     private JewelryRepository jewelryRepository;
 
     @Override
-    public Jewelry findJewelryByUser(User user) {
-        return jewelryRepository.findByUser(user);
+    public List<Jewelry> findAllByUser(User user) {
+        return jewelryRepository.findAllByUser(user);
     }
 
     @Override

@@ -2,3 +2,27 @@
     padding: 5px;
     margin: auto;
 }
+.j-img {
+    position:relative;
+    width:200px;
+    height:200px;
+    margin: 2px;
+    border: 5px solid yellow;
+    border-radius: 5px;
+}
+.j-img:hover > .j-img-nav {
+        display:block;
+    }
+
+
+.j-img-nav {
+    display:none;
+    position: absolute;
+    bottom: 0px;
+    background-color:rgb(0,0,0,0.8);
+    width: 190px;
+    height: 20px;
+}
+.j-img-container{
+    display:flex;;
+}
