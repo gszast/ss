@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
@@ -35,19 +36,19 @@ public class JImageController {
     private MyFileService myFileService;
 
     @RequestMapping(value="/{jewelryId}/{imgId}", method = RequestMethod.DELETE)
-    public ModelAndView deleteOneImage(@PathVariable("jewelryId") int jewelryId, @PathVariable("imgId") int imgId) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteOneImage(@PathVariable("jewelryId") int jewelryId, @PathVariable("imgId") int imgId) {
         ModelAndView modelAndView = new ModelAndView();
         Jewelry jewelry = jewelryService.findOne(jewelryId);
         if (jewelry == null) {
             throw new EntityNotFoundException("Not found jewewlry for id: " + jewelryId);
         }
-        MyFile myFile = myFileService.findOne(imgId);
-        myFileService.delete(myFile);
+        MyFile image = myFileService.findOne(imgId);
+        if ( image.getJewelry().getId() != jewelry.getId()){
+            throw new EntityNotFoundException("BLABLABLA");
+        }
 
-        modelAndView.addObject("images", myFileService.findAll().stream().map(MyFile::getPath).collect(Collectors.toList()));
-        modelAndView.addObject("myFile", new MyFile());
-        modelAndView.setViewName("jewelrys/images");
-        return modelAndView;
+        myFileService.delete(image);
     }
     @RequestMapping(value="/{jewelryId}/{imgId}", method = RequestMethod.GET, produces = "image/png")
     public @ResponseBody

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+	<div class="jg-jewelry-l">
+		<h1>Twoja biżuteria </h1>
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>L.P.</th>
+					<th>Nazwa</th>
+					<th>Firma</th>
+
+					<th>Edycja</th>
+				</tr>
+				<tr th:each="j,iterationStatus  : ${jewelryList}">
+					<div clas="jewelry-l-item">
+
+						<td th:text="${iterationStatus.count}">1</td>
+						<td th:text="${j.name}">NAME</td>
+								<td th:text="${j.brand}">BRAND</td>
+						<td><button th:onclick="'navTo(\'/jewelrys/'+${j.id}+'\')'" type="button" class="btn btn-default" aria-label="Left Align"> Edytuj </button></a></td>
+
+					</div>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+</html>

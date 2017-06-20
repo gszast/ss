@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+
+	<div class="jg-shop-l">
+		<h1>Sklepy współpracujące z nami:</h1>
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>L.P.</th>
+					<th>Nazwa</th>
+					<th>Adres</th>
+					<th>Opis</th>
+				</tr>
+				<tr th:each="s,iterationStatus  : ${shopList}">
+					<div class="shop-l-item">
+						<td th:text="${iterationStatus.count}">1</td>
+						<td th:text="${s.name}">NAME</td>
+						<td th:text="${s.address}">ADDRESS</td>
+						<td th:text="${s.description}">DESCRIPTION</td>
+					</div>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+</html>

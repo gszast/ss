@@ -2,7 +2,7 @@ package com.jewelryguard.service;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -33,48 +33,14 @@ public class AdminController {
 
 
 
-	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-	public ModelAndView login(){
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("login");
-		return modelAndView;
-	}
 
-
-	@RequestMapping(value="/registration", method = RequestMethod.GET)
-	public ModelAndView registration(){
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("registration");
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			bindingResult
-					.rejectValue("email", "error.user",
-							"Istnieje konto z takim adresem email");
-		}
-		if (bindingResult.hasErrors()) {
-			modelAndView.setViewName("registration");
-		} else {
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "Stworzono nowego uzytkownika.");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("login");
-
-		}
-		return modelAndView;
-	}
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 
-		modelAndView.setViewName("admin");
+		modelAndView.setViewName("admin/index");
 		return modelAndView;
 	}
 
@@ -123,7 +89,7 @@ public class AdminController {
 
 		
 		
-		modelAndView.setViewName("admin/"+add.trim());
+//		modelAndView.setViewName("admin/"+add.trim());
 		return modelAndView;
 	}
 

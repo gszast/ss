@@ -1,10 +1,10 @@
 package com.jewelryguard.service;
 
-import com.google.common.collect.Lists;
 import com.jewelryguard.model.Jewelry;
 import com.jewelryguard.model.MyFile;
 import com.jewelryguard.repository.MyFileRepository;
 import com.jewelryguard.repository.UserRepository;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
 
 @Service("MyFileService")

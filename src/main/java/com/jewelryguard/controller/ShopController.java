@@ -52,7 +52,7 @@ public class ShopController {
 			List<Shop> shopList = shopService.findAll();
 			modelAndView.addObject("successMessage", "Dodano do nowy sklep.");
 			modelAndView.addObject("shopList", shopList);
-			modelAndView.setViewName("shops");
+			modelAndView.setViewName("shops/index");
 
 		}
 		return modelAndView;
@@ -65,7 +65,7 @@ public class ShopController {
 		//TO DO: show shops only to related users
 		List<Shop> shopList = shopService.findAll();
 		modelAndView.addObject("shopList", shopList );
-		modelAndView.setViewName("shops");
+		modelAndView.setViewName("shops/list");
 		return modelAndView;
 	}
 

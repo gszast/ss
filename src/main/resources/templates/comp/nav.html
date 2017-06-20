@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="j-nav">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">JGuard</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><button th:onclick="'navTo(\'jewelrys\')'" class="btn btn-default">Moja biżuteria</button></li>
+                <li><button th:onclick="'navTo(\'jewelrys\\new\')'" class="btn btn-default">Dodaj nową biżuterię</button></li>
+                <li><button th:onclick="'navTo(\'shops\')'" class="btn btn-default">Lista sklepów</button></li>
+                <li><button th:onclick="'navTo(\'logout\')'" class="btn btn-default">Wyloguj</button></li>
+                <li><button th:onclick="'navTo(\'admin\')'" class="btn btn-default">Admin Panel</button></li>
+            </ul>
+        </div>
+    </nav>
+</div>

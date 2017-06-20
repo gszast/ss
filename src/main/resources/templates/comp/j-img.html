@@ -1,0 +1,23 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="j-img">
+    <div th:class="j-img" th:id="${image}"th:style="'background:url(/img/' +${jewelry.id} + '/'+ ${image} +');'">
+            <button  id="deleteButton"
+                     name="deleteButton"
+                     th:onclick="'deleteImg('+${jewelry.id} + ','+ ${image} + ')'"
+                     type="button"
+                     class="close"
+                     aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+</div>
+
+</body>
+
+</html>

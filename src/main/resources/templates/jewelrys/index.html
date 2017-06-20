@@ -2,66 +2,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
-<head>
-<title>Strona admina</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/jguard.css}" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script th:src="@{/js.js}"></script>
-</head>
-
-<body>
-	<div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">JGuard</a>
+		<div class="jg-form-i">
+			<form autocomplete="off" enctype="multipart/form-data"
+				  th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +',\'jg-form-i\')'"
+				  th:object="${myFile}" method="delete" class="form-horizontal"
+				  role="form">
+				<div class="form-group">
+					<div class="">
+						<button type="submit" class="btn btn-danger btn-block">Delete</button>
+					</div>
 				</div>
-				<ul class="nav navbar-nav">
-					<li><a href="/jewelrys/new" class="btn btn-default">Dodaj nową</a></li>
-					<li><a href="/shops" class="btn btn-default">List sklepów</a></li>
-					<li><a href="/about"  class="btn btn-default">About</a></li>
-					<li><a href="/logout" class="btn btn-default">Wyloguj</a></li>
-					<li><a href="/admin" class="btn btn-default">Admin panel</a></li>
-					<li><a href="/jewelrys" class="btn btn-default">Moja biżuteria</a></li>
-				</ul>
-			</div>
-		</nav>
-		<div class="content">
-			<div>
-				<h2><div th:text="${jewelry.name}">NAME</div></h2>
-				Firma: <div th:text="${jewelry.brand}">BRAND</div>
+			</form>
+				<h2><input disabled th:value="${jewelry.name}"></input></h2>
+				Firma: <input th:value="${jewelry.brand}"></input>
 				Kruszce: <div>
 					<p th:each="m : ${jewelry.metalList}"
 					   th:text="${m.name}"></p>
 				</div>
-				Waga: <div th:text="${jewelry.weight}">WEIGHT</div>
+				Waga: <input th:value="${jewelry.weight}"></input>
 				Kategorie: <div>
 					<p th:each="c : ${jewelry.categoryList}"
 					   th:text="${c.name}"></p>
 				</div>
-			</div>
-			<a th:href="'/jewelrys/'+${jewelry.id}+'/images'"><h2> Zdjęcia: </h2></a>
-			<div class="img-container">
+			<div class="jewelry-img-container" >
+				<h2> Zdjęcia: </h2>
 
-			</div>
-			<div class="j-img-container" >
+				<div th:include="comp/file-upload :: file-upload" th:with="jewelryId=${jewelry.id}"></div>
 
-				<div th:each="i : ${images}" >
-
-						<div class="j-img"  th:id="${i}" th:style="'background:url(/img/'+ ${jewelry.id} + '/' + ${i} + ');'">
-							<div class="j-img-nav">
-								<button  id="deleteButton" name="deleteButton" th:onclick="'deleteImg('+${jewelry.id} +','+${i}+')'" type="button"
-										 class="close" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						</div>
-
-				</div>
+				<div th:include="comp/j-img-list :: j-img-list" th:with="images=${images}"></div>
 			</div>
 		</div>
-	</div>
-</body>
 </html>

@@ -23,7 +23,9 @@ spring:
     users-query:  select email, password, active from user where email=?
     roles-query:  select u.email, r.role from user u inner join user_role ur on(u.user_id=ur.user_id) inner join role r on(ur.role_id=r.role_id) where u.email=?
 # =============================
-# = imgDir + jImgPrefix + jewelryId + myFileId + jImgSufix
+# Ścieżki do zapisu na dysku. W przypadku Windows:
+# "C:\jguard\public\img\"
+# Folder zostanie stworzony jeżeli nie istnieje!
 # = Ex.: "/jguard/public/img/j_img_55/3.jpg"
 # =============================
 resources:
@@ -32,3 +34,15 @@ resources:
   img:
     jewelery-prefix: j_img_
     sufix: .jpg
+# ==============================
+# Proxy pozwalające
+#
+#
+# ==============================
+zuul:
+  routes:
+    foos:
+      path: /foos/**
+      url: http://localhost:8081/spring-zuul-foos-resource/foos
+flyway:
+  baseline-description:

@@ -8,28 +8,18 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js.js}"></script>
 </head>
 
 <body>
+	<div th:include="comp/nav :: nav"></div>
 	<div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">JGuard</a>
-				</div>
-				<ul class="nav navbar-nav">
-					<li><a href="/jewelrys" class="btn btn-default">Moja biżuteria</a></li>
-					<li><a href="/jewelrys/new" class="btn btn-default">Dodaj nową</a></li>
-					<li><a href="/shops" class="btn btn-default">List sklepów</a></li>
-					<li><a href="/about"  class="btn btn-default">About</a></li>
-					<li><a href="/logout" class="btn btn-default">Wyloguj</a></li>
-					<li><a href="/admin" class="btn btn-default">Admin panel</a></li>
-				</ul>
-			</div>
-		</nav>
+		<div class="loader"></div>
 		<div class="content">
-		
+
 		</div>
+
 	</div>
+	<div th:include="comp/footer :: copy"></div>
 </body>
 </html>
