@@ -46,13 +46,13 @@ public class ShopController {
 		//TO DO: check if user has rights to add new shop
 		shop.setOwner(user);
 		if (bindingResult.hasErrors()) {
-			modelAndView.setViewName("shops/new");
+			modelAndView.setViewName("admin/edit?e=shop");
 		} else {
 			shopService.saveShop(shop);
 			List<Shop> shopList = shopService.findAll();
 			modelAndView.addObject("successMessage", "Dodano do nowy sklep.");
 			modelAndView.addObject("shopList", shopList);
-			modelAndView.setViewName("shops/index");
+			modelAndView.setViewName("admin/shop");
 
 		}
 		return modelAndView;

@@ -4,7 +4,6 @@ import com.jewelryguard.model.*;
 import com.jewelryguard.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,15 +11,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -158,7 +157,10 @@ public class JewelryController {
 			modelAndView.setViewName("jguard");
 			throw new AccessDeniedException("You have no access!");
 		}
-
+		List<MyFile> myFileList = myFileService.findAllByJewelry(jewelry);
+		if( !myFileList.isEmpty() ) {
+			myFileList.stream().forEach(myFile -> {myFileService.delete(myFile);});
+		}
 		boolean isDeleted = jewelryService.delete(jewelry);
 		Page<Jewelry> jewelryList = jewelryService.findAllByUser(user, createPageRequest(0,10));
 
@@ -179,7 +181,7 @@ public class JewelryController {
 	 */
 
 	@RequestMapping(value="/{jewelryId}/images", method = RequestMethod.POST)
-	public ModelAndView createOneImage(@PathVariable("jewelryId") int jewelryId, @RequestParam MultipartFile image){
+	public ModelAndView createOneImage(@PathVariable("jewelryId") int jewelryId, @RequestParam MultipartFile image) throws FileNotFoundException{
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
@@ -189,8 +191,14 @@ public class JewelryController {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		List<MyFile> myFileList = myFileService.findAllByJewelry(jewelry);
+		if ( myFileList == null ) {
+			throw new FileNotFoundException("Error retrieving file list");
+		}
+		List<Integer> imagesIdsList = myFileList.stream().map(MyFile::getId).collect(Collectors.toList());
+		
 		modelAndView.addObject( "jewelry", jewelry);
-		modelAndView.addObject("images", myFileService.findAll().stream().map(MyFile::getId).collect(Collectors.toList()));
+		modelAndView.addObject("images", imagesIdsList);
 
 		modelAndView.setViewName("comp/j-img-list");
 		return modelAndView;

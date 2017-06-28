@@ -1,32 +1,3 @@
-$(document).ready(function () {
-    console.log("ASDASDASD");
-})
-$("form#data").submit(function(event){
-
-    event.preventDefault();
-
-    var url  = 'http://server.com/upload';
-    var image_file = $('#image_file').get(0).files[0];
-
-    var formData = new FormData();
-    formData.append("image_file", image_file);
-
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: formData,
-        async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (status) {
-            // do something on success
-        }
-    });
-
-    return false;
-
-});
 function deleteImg(jId, imgId){
     var url = '/img/' + jId + "/" + imgId;
     $.ajax({
@@ -41,13 +12,22 @@ function navTo(view){
     var loader = $('.loader');
     loader.css("display","block");
 
-    $.get( view.trim(), function(result) {
-        loader.css("display","none");
-        if ( view === "admin") {
-        } else {
-            $('.container').html(result);
-        }
-    });
+    if ( view === "user") {
+      $('.nav-a').remove();
+      $('.nav').css("display","block");
+      navTo('jewelrys');
+    } else {
+        $.get( view.trim(), function(result) {
+            loader.css("display","none");
+            if ( view === "admin") {
+                $('.nav').css("display","none");
+                $('.container-fluid').append(result);
+            } else {
+                $('.content').html(result);
+            }
+        });
+    }
+
     return false;
 }
 function submitForm(url, formClass){
@@ -64,6 +44,7 @@ function submitForm(url, formClass){
         // Jewelery Image Upload
         if ( formClass === ".jewelry-img-u" ) {
             var input = $(formClass + " input[type=file]");
+            input
             var files = input.get(0).files;
             data = new FormData();
             data.append("image", files[0]);
@@ -76,13 +57,18 @@ function submitForm(url, formClass){
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    $('.j-img-list').html(result);
+                loader.css("display","none");
+                    $('.j-img-list').replaceWith(result);
+                    $('.jewelry-img-u input')[0].value = "";
+                },
+                error: function (){
+                    loader.css("display","none");
                 }
             });
         } else {
             $.post(url, data, function (result) {
                 loader.css("display", "none");
-                $('.container').html(result);
+                $('.content').html(result);
                 return false;
             })
         }
@@ -91,7 +77,7 @@ function submitForm(url, formClass){
     if ( method === "get") {
         $.get( url, function(result) {
             loader.css("display","none");
-            container.html(result);
+             $('.content').html(result);
             return false;
         });
     }
@@ -101,7 +87,7 @@ function submitForm(url, formClass){
             method: "delete",
             success: function(result) {
                 loader.css("display","none");
-                container.html(result);
+                $('.content').html(result);
                 return false;
                 }
         });

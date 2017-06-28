@@ -4,7 +4,7 @@
 
 		<div class="jg-form-i">
 			<form autocomplete="off" enctype="multipart/form-data"
-				  th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +',\'jg-form-i\')'"
+				  th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +'\',\'jg-form-i\')'"
 				  th:object="${myFile}" method="delete" class="form-horizontal"
 				  role="form">
 				<div class="form-group">
@@ -29,7 +29,7 @@
 
 				<div th:include="comp/file-upload :: file-upload" th:with="jewelryId=${jewelry.id}"></div>
 
-				<div th:include="comp/j-img-list :: j-img-list" th:with="images=${images}"></div>
+				<object th:include="comp/j-img-list :: j-img-list" th:with="images=${images}" th:remove="tag"></object>
 			</div>
 		</div>
 </html>

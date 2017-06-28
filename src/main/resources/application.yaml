@@ -1,6 +1,12 @@
 
 # ===============================
 # = DATA SOURCE
+# Baza danych: mysql,
+# User: jguard,
+# Password: jguard
+# Host: localhsot
+# Port: 3306
+#
 # ===============================
 spring:
   datasource:
@@ -34,15 +40,3 @@ resources:
   img:
     jewelery-prefix: j_img_
     sufix: .jpg
-# ==============================
-# Proxy pozwalające
-#
-#
-# ==============================
-zuul:
-  routes:
-    foos:
-      path: /foos/**
-      url: http://localhost:8081/spring-zuul-foos-resource/foos
-flyway:
-  baseline-description:

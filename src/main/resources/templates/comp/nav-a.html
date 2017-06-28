@@ -2,11 +2,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-
-            <ul class="nav navbar-nav">
-                <li><button th:onclick="'navTo(\'admin/users\')'" class="btn btn-default">Użytkownicy</button></li>
-                <li><button th:onclick="'navTo(\'admin/shops\')'" class="btn btn-default">Sklepy</button></li>
-                <li><button th:onclick="'navTo(\'admin/jewelrys\')'" class="btn btn-default">Biżuterie</button></li>
-                <li><button th:onclick="'navTo(\'admin/metals\')'" class="btn btn-default">Kruszce</button></li>
-                <li><button th:onclick="'navTo(\'admin/categories\')'" class="btn btn-default">Kategorie</button></li>
+        <ul class="nav-a nav navbar-nav">
+                <li><button th:onclick="'navTo(\'admin/edit?e=user\')'" class="btn btn-default">Użytkownicy</button></li>
+                <li><button th:onclick="'navTo(\'admin/edit?e=shop\')'" class="btn btn-default">Sklepy</button></li>
+                <li><button th:onclick="'navTo(\'admin/edit?e=jewelry\')'" class="btn btn-default">Biżuterie</button></li>
+                <li><button th:onclick="'navTo(\'admin/edit?e=metal\')'" class="btn btn-default">Kruszce</button></li>
+                <li><button th:onclick="'navTo(\'admin/edit?e=category\')'" class="btn btn-default">Kategorie</button></li>
+                <li><button th:onclick="'navTo(\'user\')'" class="btn btn-default">Powrót</button></li>
             </ul>

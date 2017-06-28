@@ -3,10 +3,10 @@
 	  xmlns:th="http://www.thymeleaf.org">
 
 
-		<div class="col-md-6 col-md-offset-3">
+		<div class="jg-category-form col-md-6 col-md-offset-3">
 			<span th:utext="${successMessage}"></span>
 
-			<form autocomplete="off" action="#" th:action="@{/categories}"
+			<form autocomplete="off" action="#" th:action="@{/categories}" th:onsubmit="'return submitForm(\'categories\',\'jg-category-form \');'"
 				  th:object="${category}" method="post" class="form-horizontal"
 				  role="form">
 				<h2>Dodawanie nowej kategorii</h2>

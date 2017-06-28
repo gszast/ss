@@ -1,7 +1,5 @@
 package com.jewelryguard.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +9,7 @@ public class MyFile {
 	 @Column(name = "file_id")
 	    private int id;
 	 private String path;
-	 @ManyToOne
+	 @ManyToOne(cascade = CascadeType.REFRESH)
 	 private Jewelry jewelry;
 
 	public MyFile() {

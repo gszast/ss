@@ -7,14 +7,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value ="/admin")
@@ -34,27 +33,19 @@ public class AdminController {
 
 
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView home(){
-		ModelAndView modelAndView = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByEmail(auth.getName());
 
-		modelAndView.setViewName("admin/index");
-		return modelAndView;
-	}
-
-	@RequestMapping(params = "{add}" ,method = RequestMethod.GET)
-	public ModelAndView homeEdit(@RequestParam String add, Model model){
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView homeEdit(
+			@RequestParam(value = "e", required = true) String e, Model model){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		
 
-		switch ( add ) {
+		switch ( e ) {
 			case "user":{
 				List<User> userList = userService.findAll();
-				modelAndView.addObject("user", new User());
+				modelAndView.addObject("roles", user.getRoles().stream().map(Role::getRole).collect(Collectors.toList()));
 				modelAndView.addObject("userList", userList);
 				break;
 			}
@@ -89,9 +80,18 @@ public class AdminController {
 
 		
 		
-//		modelAndView.setViewName("admin/"+add.trim());
+		modelAndView.setViewName("admin/"+e.trim());
 		return modelAndView;
 	}
 
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView home(){
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+
+		modelAndView.setViewName("comp/nav-a");
+		return modelAndView;
+	}
 
 }

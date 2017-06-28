@@ -7,10 +7,11 @@
 
 <div th:fragment="j-img-list">
     <div class="j-img-list">
-    <div th:each="image : ${images}"
+    <object th:each="image : ${images}"
          th:include="comp/j-img :: j-img"
          th:with="imgId=@{image.id}"
-         th:with="jId=${jewelry.id}"/>
+         th:with="jId=${jewelry.id}"
+         th:remove="tag"/>
     </div>
 </div>
 

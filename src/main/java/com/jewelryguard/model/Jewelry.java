@@ -34,7 +34,7 @@ public class Jewelry {
     @JoinTable(name = "jewelry_category", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categoryList;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "jewelry_image", joinColumns = @JoinColumn(name = "jewelry_id"), inverseJoinColumns = @JoinColumn(name = "file_id"))
     private List<MyFile> imageList;
 
