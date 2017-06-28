@@ -81,6 +81,17 @@ function submitForm(url, formClass){
             return false;
         });
     }
+    if ( method === "put") {
+        $.ajax( {
+            url: url,
+            method: "put",
+            success: function(result) {
+                loader.css("display","none");
+                $('.content').html(result);
+                return false;
+                }
+        });
+    }
     if ( method === "delete") {
         $.ajax( {
             url: url,

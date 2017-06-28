@@ -103,9 +103,6 @@ public class JewelryController {
         List<Metal> metalList = metalService.findAll();
         modelAndView.addObject("metalList", metalList);
 
-        List<MyFile> fileList = myFileService.findAll();
-        modelAndView.addObject("files", fileList);
-
         modelAndView.addObject("jewelry", jewelry);
         modelAndView.setViewName("jewelrys/new");
         return modelAndView;
@@ -124,6 +121,11 @@ public class JewelryController {
 				collect(Collectors.toList());
 		MyFile myFile = new MyFile();
 		myFile.setJewelry(jewelry);
+        List<Category> categoryList = categoryService.findAll();
+        modelAndView.addObject("categoryList", categoryList);
+
+        List<Metal> metalList = metalService.findAll();
+        modelAndView.addObject("metalList", metalList);
 		modelAndView.addObject("jewelry", jewelry);
 		modelAndView.addObject("images", images);
 		modelAndView.addObject("myFile", myFile);
@@ -131,16 +133,30 @@ public class JewelryController {
 		return modelAndView;
 	}
 	@RequestMapping(value="/{jewelryId}", method = RequestMethod.PUT)
-	public ModelAndView updateOne(@PathVariable("jewelryId") int jewelryId){
+	public ModelAndView updateOne(@Valid Jewelry jewelry, BindingResult bindingResult, @PathVariable("jewelryId") int jewelryId){
 		ModelAndView modelAndView = new ModelAndView();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
+		
+		Jewelry jewelryToUpdate = jewelryService.findOne(jewelryId);
+		
+		jewelryToUpdate.setBrand(jewelry.getBrand());
+		jewelryToUpdate.setCategoryList(jewelry.getCategoryList());
+		jewelryToUpdate.setName(jewelry.getName());
+		jewelryToUpdate.setMetalList(jewelry.getMetalList());
+		jewelryToUpdate.setWeight(jewelry.getWeight());
+		
+		jewelryService.saveJewelry(jewelryToUpdate);
+		
+        List<Category> categoryList = categoryService.findAll();
+        modelAndView.addObject("categoryList", categoryList);
 
-		Jewelry jewelry = jewelryService.findOne(jewelryId);
-
-		modelAndView.addObject("jewelry", jewelry);
-		modelAndView.addObject("message", "Succesfully updated jewelry.");
+        List<Metal> metalList = metalService.findAll();
+        modelAndView.addObject("metalList", metalList);
+        
+		modelAndView.addObject("jewelry", jewelryToUpdate);
+		modelAndView.addObject("jewelry-message", "Succesfully updated jewelry.");
 		modelAndView.setViewName("jewelrys/index");
 		return modelAndView;
 	}

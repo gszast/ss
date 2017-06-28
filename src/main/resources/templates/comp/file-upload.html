@@ -8,7 +8,7 @@
 		</div>
 
 		<div class="jewelry-img-u">
-			<form autocomplete="off" enctype="multipart/form-data"
+			<form autocomplete="off" th:action="'/jewelrys/'+ ${jewelryId} +'/images'" enctype="multipart/form-data"
 				  th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +'/images\',\'jewelry-img-u\')'"
 				  th:object="${myFile}" method="post" class="form-horizontal"
 				  role="form">

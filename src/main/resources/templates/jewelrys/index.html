@@ -3,8 +3,9 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 		<div class="jg-form-i">
+		<div class="jg-form-d">
 			<form autocomplete="off" enctype="multipart/form-data"
-				  th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +'\',\'jg-form-i\')'"
+				  th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +'\',\'jg-form-d\')'"
 				  th:object="${myFile}" method="delete" class="form-horizontal"
 				  role="form">
 				<div class="form-group">
@@ -13,17 +14,64 @@
 					</div>
 				</div>
 			</form>
-				<h2><input disabled th:value="${jewelry.name}"></input></h2>
-				Firma: <input th:value="${jewelry.brand}"></input>
-				Kruszce: <div>
-					<p th:each="m : ${jewelry.metalList}"
-					   th:text="${m.name}"></p>
+			</div>
+			
+		<div class="jg-form-u">
+			<form autocomplete="off" enctype="multipart/form-data" method="put"
+				  th:object="${jewelry}" th:onsubmit="'return submitForm(\'/jewelrys/'+ ${jewelryId} +'\',\'jg-form-u\')'">
+				<div class="form-group">
+				<div class="">
+					<label th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"
+						   class="validation-message"></label>
+					<input type="text" th:field="*{brand}" placeholder="Firma"
+						   class="form-control" required maxlength="30" />
 				</div>
-				Waga: <input th:value="${jewelry.weight}"></input>
-				Kategorie: <div>
-					<p th:each="c : ${jewelry.categoryList}"
-					   th:text="${c.name}"></p>
+			</div>
+
+			<div class="form-group">
+				<div class="">
+					<label	th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							  class="validation-message"></label>
+					<input type="text" th:field="*{name}" placeholder="Nazwa"
+						   class="form-control" required maxlength="50"/>
 				</div>
+			</div>
+			<div class="form-group">
+				<div class="">Waga:
+					<input type="text" th:field="*{weight}" placeholder="Waga"
+						   class="form-control" step="0.01"/> <label
+							th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"
+							class="validation-message" required>g</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="">Kategoria:
+					<select th:field="*{categoryList}" class="selectpicker form-control" multiple="multiple">
+						<option th:each="dropDownItem : ${categoryList}"
+								th:value="${dropDownItem.id}"
+								th:text="${dropDownItem.name}"  required/>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="">Kruszec:
+					<select th:field="*{metalList}" class="selectpicker form-control" multiple="multiple">
+						<option th:each="dropDownItem : ${metalList}"
+								th:value="${dropDownItem.id}"
+								th:text="${dropDownItem.name}"  required/>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="">
+					<button type="submit" class="btn btn-primary btn-block">Uaktualnij</button>
+				</div>
+			</div>
+			</form>
+			</div>
 			<div class="jewelry-img-container" >
 				<h2> Zdjęcia: </h2>
 
